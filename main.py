@@ -11,10 +11,9 @@ from utils.show_sam import show_masks, show_points
 from matplotlib import pyplot as plt
 
 
+print("Loading SAM2 Model...")
 sam2_checkpoint = "checkpoints/sam2.1_hiera_large.pt"
-print("Loading SAM2 Model...")
 model_cfg = "configs/sam2.1/sam2.1_hiera_l.yaml"
-print("Loading SAM2 Model...")
 sam2_model = build_sam2(model_cfg, sam2_checkpoint)
 print("SAM2 Model loaded successfully!x")
 
@@ -44,7 +43,9 @@ def preprocess_image(image):
     # Convert to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     # Apply binary thresholding
-    _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
+    _, binary = cv2.threshold(gray, 90, 255, cv2.THRESH_BINARY_INV)
+    # invert the binary image
+    binary = cv2.bitwise_not(binary)
     return binary
 
 # Function to read barcode
@@ -63,6 +64,7 @@ def process_image(image, output_folder):
     # File paths for output images
     yolo_bbox_path = os.path.join(output_folder, "yolo_bbox.png")
     mask_image_path = os.path.join(output_folder, "mask_image.png")
+    binary_image_path = os.path.join(output_folder, "binary_image.png")
     # Detect barcode with YOLO
     image = cv2.imread(image)
     results = model(image)
@@ -130,16 +132,17 @@ def process_image(image, output_folder):
 
         # You can use the first mask or all masks, depending on your use case
 
-        # Preprocess the cropped image for OCR (grayscale, binarization)
-        processed_image = preprocess_image(cutout)
+        # Preprocess the cropped image (grayscale, binarization)
+        processed_image = preprocess_image(cropped_image)
         # cv2.imshow("Processed Image", processed_image)
+        cv2.imwrite(binary_image_path, processed_image)
 
         # Use pyzbar to read the barcode from the processed image
-        barcode_number = read_barcode(cropped_image)
+        barcode_number = read_barcode(processed_image)
         print("Barcode Number:", barcode_number)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-        return barcode_number, yolo_bbox_path, mask_image_path
+        return barcode_number, yolo_bbox_path, mask_image_path, binary_image_path
     
     return "No barcode detected"
 
@@ -165,7 +168,7 @@ def index():
             file.save(file_path)
 
             # Generate outputs
-            bcNumber, yolo_bbox_path, mask_image_path = process_image(
+            bcNumber, yolo_bbox_path, mask_image_path, binary_image_path = process_image(
                 file_path,
                 app.config['OUTPUT_FOLDER']
             )
@@ -175,6 +178,7 @@ def index():
                 original_image=file_path,
                 yolo_bbox=yolo_bbox_path,
                 mask_image=mask_image_path,
+                binary_image=binary_image_path,
                 barcode_number=bcNumber,
             )
 

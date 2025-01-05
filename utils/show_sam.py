@@ -17,12 +17,7 @@ def show_mask(mask, ax, random_color=False, borders = True):
         mask_image = cv2.drawContours(mask_image, contours, -1, (1, 1, 1, 0.5), thickness=2)
     ax.imshow(mask_image)
 
-def show_box(box, ax):
-    x0, y0 = box[0], box[1]
-    w, h = box[2] - box[0], box[3] - box[1]
-    ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0, 0, 0, 0), lw=2))
-
-def show_masks(image, masks, scores, point_coords=None, box_coords=None, input_labels=None, borders=True, mask_image_path=None):
+def show_masks(image, masks, scores, point_coords=None,input_labels=None, borders=True, mask_image_path=None):
     for i, (mask, score) in enumerate(zip(masks, scores)):
         plt.figure(figsize=(10,10))
         plt.imshow(image)
@@ -30,9 +25,6 @@ def show_masks(image, masks, scores, point_coords=None, box_coords=None, input_l
         if point_coords is not None:
             assert input_labels is not None
             show_points(point_coords, input_labels, plt.gca())
-        if box_coords is not None:
-            # boxes
-            show_box(box_coords, plt.gca())
         if len(scores) > 1:
             plt.title(f"Mask {i+1}, Score: {score:.3f}", fontsize=18)
         plt.axis('off')
