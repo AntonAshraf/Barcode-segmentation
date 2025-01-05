@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Market Reader</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        form {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="file"], button {
+            margin: 10px;
+        }
+        .images-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 90%;
+            margin: 20px auto;
+        }
+        .image-box {
+            text-align: center;
+        }
+        .image-box img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .image-box p {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1em;
+        }
+        .loading {
+            font-size: 1.2em;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>Barcode Market Reader</header>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="image">Upload an Image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if original_image %}
+        <div class="images-container">
+            <div class="image-box">
+                <img src="{{ original_image }}" alt="Original Image">
+                <p>Original Image</p>
+            </div>
+            <div class="image-box">
+                <img src="{{ yolo_bbox }}" alt="YOLO Processed Image">
+                <p>YOLO Processed Image</p>
+            </div>
+            <div class="image-box">
+                <img src="{{ mask_image }}" alt="Masked Image">
+                <p>Masked Image</p>
+            </div>
+        </div>
+        <div>Barcode {{ barcode_number }}</div>
+    {% else %}
+        <div class="loading">Loading results...</div>
+    {% endif %}
+</body>
+</html>
