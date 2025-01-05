@@ -25,7 +25,7 @@ print("SAM2 Model loaded successfully!")
 app = Flask(__name__)
 
 # YOLO Model for Barcode Detection
-model = YOLO('YoloV8s30-best.pt')
+model = YOLO('YOLO/YoloV8s30-best.pt')
 print("YOLO Model loaded successfully!")
 # Upload folder
 UPLOAD_FOLDER = 'static/uploads'
@@ -126,7 +126,7 @@ def process_image(image, output_folder):
 
         # Crop the image using the bounding box
         cropped_image = cutout[y_min:y_max+1, x_min:x_max+1]
-        cv2.imshow("Cropped Image", cropped_image)
+        # cv2.imshow("Cropped Image", cropped_image)
 
         # You can use the first mask or all masks, depending on your use case
 
