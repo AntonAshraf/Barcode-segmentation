@@ -170,6 +170,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-/static/output/*
-/static/upload/*
+/static/outputs/*
+/static/uploads/*
 /checkpoints/*.pt
