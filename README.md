@@ -43,7 +43,7 @@ Follow these steps to set up the project:
 4. **Barcode Decoding**: The segmented barcodes are decoded to extract the encoded information.
 5. **Result Display**: The original image, processed images, and decoded barcode information are displayed on the web interface.
 
-![](images/pipeline.jpg)
+![](/pipeline.jpg)
 ## Usage
 
 1. **Run the Flask app**:
