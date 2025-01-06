@@ -60,8 +60,6 @@ Follow these steps to set up the project:
 ```
 barcode-detector/
 ├── checkpoints/          # Directory for storing model checkpoints
-├── configs/              # Configuration files for models
-├── notebooks/            # Jupyter notebooks for experiments
 ├── sam2/                 # SAM2 model implementation
 ├── static/               # Static files for the web interface
 ├── templates/            # HTML templates for the web interface
