@@ -6,8 +6,25 @@ This repository contains a barcode detection and recognition system using deep l
 
 - **Barcode Detection**: Detects barcodes in images using YOLO.
 - **Barcode Segmentation**: Segments the detected barcodes using SAM2.
-- **Barcode Decoding**: Decodes the segmented barcodes to extract the encoded information.
+- **Barcode Decoding**: Decodes the segmented barcodes to extract the encoded information using pyzbar.
 - **Web Interface**: Provides a user-friendly web interface for uploading images and viewing results.
+
+## Screenshots
+
+|![Screenshot 2025-01-06 230957](https://github.com/user-attachments/assets/d45c228b-0779-451e-9c11-159ffa20d5ad) | ![Screenshot 2025-01-06 231150](https://github.com/user-attachments/assets/840424cb-1ecc-457f-85dc-78cdeafaa872)|
+|:--:|:--:|
+
+## Pipeline
+
+![pipeline](https://github.com/user-attachments/assets/5a8c4da8-9fb0-4de7-99f5-3ba728d493ab)
+
+1. **Image Upload**: Users upload an image containing barcodes via the web interface.
+2. **Barcode Detection**: The YOLO model detects the barcodes in the uploaded image.
+3. **Barcode Segmentation**: The SAM2 model segments the detected barcodes.
+4. **Preprocessing**: Apply grayscale and binarization to the cut-out barcode.
+5. **Barcode Decoding**: The segmented barcodes are decoded to extract the encoded information.
+6. **Result Display**: The original image, processed images, and decoded barcode information are displayed on the web interface.
+
 
 ## Installation
 
@@ -35,15 +52,7 @@ Follow these steps to set up the project:
     ./checkpoints/download_ckpts.sh
     ```
 
-## Pipeline
 
-1. **Image Upload**: Users upload an image containing barcodes via the web interface.
-2. **Barcode Detection**: The YOLO model detects the barcodes in the uploaded image.
-3. **Barcode Segmentation**: The SAM2 model segments the detected barcodes.
-4. **Barcode Decoding**: The segmented barcodes are decoded to extract the encoded information.
-5. **Result Display**: The original image, processed images, and decoded barcode information are displayed on the web interface.
-
-![](/pipeline.jpg)
 ## Usage
 
 1. **Run the Flask app**:
@@ -63,11 +72,20 @@ barcode-detector/
 ├── sam2/                 # SAM2 model implementation
 ├── static/               # Static files for the web interface
 ├── templates/            # HTML templates for the web interface
+├── test images/          # Sample images for testing the system
 ├── utils/                # Utility scripts
+├── YOLO/                 # YOLO model implementation & weights
 ├── main.py               # Main script to run the Flask app
 ├── README.md             # This README file
 └── requirements.txt      # Python dependencies
 ```
+
+## Dataset
+
+The dataset used to fine-tune the YOLO model was obtained from [Roboflow](https://universe.roboflow.com/my-workspace-n464v/barcode-detection-mziov).
+
+It contains images of barcodes with corresponding annotations in YOLO format.
+The dataset was split into training and validation sets for training the model with heavy data augmentation.
 
 ## Contributing
 
