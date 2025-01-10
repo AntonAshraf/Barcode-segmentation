@@ -2,6 +2,8 @@
 
 This repository contains a barcode detection and recognition system using deep learning models. The system is designed to detect barcodes in images and extract the encoded information. It leverages the power of YOLO for object detection and SAM2 for image segmentation.
 
+Here is a detailed explanation of the project in this [link](https://youtu.be/r7SD8zljK4w)
+
 ## Features
 
 - **Barcode Detection**: Detects barcodes in images using YOLO.
